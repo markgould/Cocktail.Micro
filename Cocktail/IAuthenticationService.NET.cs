@@ -10,8 +10,6 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using IdeaBlade.EntityModel;
-
 namespace Cocktail
 {
     public partial interface IAuthenticationService
@@ -21,7 +19,7 @@ namespace Cocktail
         /// </summary>
         /// <param name="credential"> <para>The supplied credential.</para> </param>
         /// <returns> A Boolean indicating success or failure. </returns>
-        void Login(ILoginCredential credential);
+        void Login(object credential);
 
         /// <summary>
         ///   Logs out the current user.

@@ -19,7 +19,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 using Action = System.Action;
 
 namespace Cocktail
@@ -135,14 +134,6 @@ namespace Cocktail
     public abstract class CocktailMefBootstrapper : CocktailBootstrapper
     {
         private MefCompositionProvider _compositionProvider;
-
-        /// <summary>
-        ///   Static initialization
-        /// </summary>
-        static CocktailMefBootstrapper()
-        {
-            MefCompositionProvider.EnsureRequiredProbeAssemblies();
-        }
 
         /// <summary>
         ///   Creates an instance of CocktailMefBootstrapper.

@@ -14,9 +14,6 @@ using System;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
-using IdeaBlade.EntityModel.Security;
 
 namespace Cocktail
 {
@@ -47,24 +44,14 @@ namespace Cocktail
         /// <value>Returns true if user is logged in.</value>
         bool IsLoggedIn { get; }
 
-        /// <summary>
-        /// Returns the current DevForce AuthenticationContext.
-        /// </summary>
-        IAuthenticationContext AuthenticationContext { get; }
-
-        /// <summary>
-        /// Specifies the ConnectionOptions used by the current AuthenticationService.
-        /// </summary>
-        ConnectionOptions ConnectionOptions { get; }
-
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">The supplied credential.</param>
-        Task LoginAsync(ILoginCredential credential);
+        Task LoginAsync(object credential);
 
         /// <summary>Login with the supplied credential.</summary>
         /// <param name="credential">The supplied credential.</param>
         /// <param name="cancellationToken">A token that allows for the operation to be cancelled.</param>
-        Task LoginAsync(ILoginCredential credential, CancellationToken cancellationToken);
+        Task LoginAsync(object credential, CancellationToken cancellationToken);
 
         /// <summary>Logs out the current user.</summary>
         Task LogoutAsync();

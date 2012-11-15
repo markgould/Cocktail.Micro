@@ -11,7 +11,6 @@
 // ====================================================================================================================
 
 using Caliburn.Micro;
-using IdeaBlade.Core.Composition;
 using System;
 using System.Collections;
 using System.Collections.Generic;

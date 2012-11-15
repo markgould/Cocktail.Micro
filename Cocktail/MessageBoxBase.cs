@@ -11,8 +11,6 @@
 //====================================================================================================================
 
 using Caliburn.Micro;
-using IdeaBlade.Core.Composition;
-
 #if !NETFX_CORE
 using System.ComponentModel.Composition;
 #else

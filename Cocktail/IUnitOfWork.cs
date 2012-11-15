@@ -10,10 +10,7 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using System;
 using System.Threading.Tasks;
-using IdeaBlade.Core;
-using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -33,25 +30,14 @@ namespace Cocktail
         bool HasChanges();
 
         /// <summary>
-        /// Returns true if the provided entity is attached to the current UnitOfWork's EntityManager.
-        /// </summary>
-        /// <param name="entity">Entity to check if attached to current UnitOfWork.</param>
-        bool HasEntity(object entity);
-
-        /// <summary>
         ///   Commits all pending changes to the underlying data source.
         /// </summary>
-        Task<SaveResult> CommitAsync();
+        Task CommitAsync();
 
         /// <summary>
         ///   Rolls back all pending changes.
         /// </summary>
         void Rollback();
-
-        /// <summary>
-        ///   Fired whenever an entity associated with the current unit of work has changed in any significant manner.
-        /// </summary>
-        event EventHandler<EntityChangedEventArgs> EntityChanged;
     }
 
     /// <summary>

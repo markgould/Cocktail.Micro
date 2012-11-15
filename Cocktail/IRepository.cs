@@ -17,7 +17,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using IdeaBlade.Core;
 
 namespace Cocktail
 {
@@ -32,7 +31,6 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdAsync(object keyValue);
 
         /// <summary>
@@ -41,7 +39,6 @@ namespace Cocktail
         /// <param name="keyValue"> The single primary key value. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdAsync(object keyValue, CancellationToken cancellationToken);
 
         /// <summary>
@@ -49,7 +46,6 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValue"> The single primary key value. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdFromDataSourceAsync(object keyValue);
 
         /// <summary>
@@ -58,7 +54,6 @@ namespace Cocktail
         /// <param name="keyValue"> The single primary key value. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdFromDataSourceAsync(object keyValue, CancellationToken cancellationToken);
 
         /// <summary>
@@ -66,7 +61,6 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdAsync(object[] keyValues);
 
         /// <summary>
@@ -75,7 +69,6 @@ namespace Cocktail
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdAsync(object[] keyValues, CancellationToken cancellationToken);
 
         /// <summary>
@@ -83,7 +76,6 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdFromDataSourceAsync(object[] keyValues);
 
         /// <summary>
@@ -92,7 +84,6 @@ namespace Cocktail
         /// <param name="keyValues"> The composite primary key values. </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         Task<T> WithIdFromDataSourceAsync(object[] keyValues, CancellationToken cancellationToken);
 
         /// <summary>
@@ -100,7 +91,6 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValues"> The primary key values. </param>
         /// <returns> The retrieved entity. </returns>
-        /// <exception cref="EntityNotFoundException">A single entity matching the provided key was not found.</exception>
         T WithIdFromCache(params object[] keyValues);
 
         /// <summary>

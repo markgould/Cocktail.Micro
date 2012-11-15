@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using IdeaBlade.EntityModel;
 
 namespace Cocktail
 {
@@ -23,11 +22,6 @@ namespace Cocktail
     {
         private static ICompositionProvider _provider;
 
-        static Composition()
-        {
-            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
-        }
-
         internal static ICompositionProvider Provider
         {
             get
@@ -36,16 +30,6 @@ namespace Cocktail
                     throw new InvalidOperationException(StringResources.CompositionProviderNotConfigured);
                 return _provider;
             }
-        }
-
-        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs args)
-        {
-            if (!args.EntityManager.IsClient)
-                return;
-
-            var locator = new PartLocator<IAuthenticationService>(false, () => args.EntityManager.CompositionContext);
-            if (locator.IsAvailable)
-                args.EntityManager.AuthenticationContext = locator.GetPart().AuthenticationContext;
         }
 
         /// <summary>

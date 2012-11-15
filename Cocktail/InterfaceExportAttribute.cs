@@ -10,21 +10,48 @@
 //   http://cocktail.ideablade.com/licensing
 // ====================================================================================================================
 
-using IdeaBlade.Core;
+using System;
+using System.ComponentModel.Composition;
 
 namespace Cocktail
 {
+#if !NETFX_CORE
     /// <summary>
-    ///   Exception thrown if an entity cannot be found.
+    ///     Used internally by the DevForce framework to mark a type as exported.
     /// </summary>
-    public sealed class EntityNotFoundException : IdeaBladeException
+    [MetadataAttribute]
+    [AttributeUsage(
+        AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property |
+        AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
+    public class InterfaceExportAttribute : InheritedExportAttribute
     {
         /// <summary>
-        ///   Initializes a new EntityNotFoundException.
         /// </summary>
-        /// <param name="message"> A message added to describe the exception. </param>
-        public EntityNotFoundException(string message) : base(message)
+        /// <param name="exportedType"></param>
+        public InterfaceExportAttribute(Type exportedType)
+            : base(exportedType)
         {
         }
     }
+
+#else
+
+    /// <summary>
+    /// Used internally by the DevForce framework to mark a type as exported.
+    /// </summary>
+  [MetadataAttribute]
+  [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
+  public class InterfaceExportAttribute : ExportAttribute {
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="exportedType"></param>
+    public InterfaceExportAttribute(Type exportedType)
+      : base(exportedType) {
+
+    }
+  }
+
+#endif
 }

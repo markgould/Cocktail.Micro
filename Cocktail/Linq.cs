@@ -11,18 +11,16 @@
 // ====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 
 namespace Cocktail
 {
-    internal class EntityManagerEventMessage<T>
+    public static class Linq
     {
-        public EntityManagerEventMessage(T entityManager, EventArgs eventArgs)
-        {
-            EntityManager = entityManager;
-            EventArgs = eventArgs;
-        }
-
-        public T EntityManager { get; private set; }
-        public EventArgs EventArgs { get; private set; }
+         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+         {
+             foreach (var x in source)
+                 action(x);
+         }
     }
 }

@@ -13,7 +13,6 @@
 using System;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using IdeaBlade.Core;
 
 namespace Cocktail
 {

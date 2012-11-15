@@ -10,25 +10,21 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using IdeaBlade.Core;
 using System;
-using System.Linq;
-using CompositionContext = IdeaBlade.Core.Composition.CompositionContext;
+using System.Diagnostics;
 
 namespace Cocktail
 {
     internal class PartLocator<T> where T : class
     {
         private T _instance;
-        private readonly Func<CompositionContext> _compositionContextDelegate;
         private readonly bool _useFactory;
 
         private bool _probed;
         private Func<T> _defaultGenerator;
 
-        internal PartLocator(bool useFactory = false, Func<CompositionContext> compositionContextDelegate = null)
+        internal PartLocator(bool useFactory = false)
         {
-            _compositionContextDelegate = compositionContextDelegate ?? (() => CompositionContext.Default);
             _useFactory = useFactory;
             _defaultGenerator = () => null;
             Composition.ProviderChanged +=
@@ -37,7 +33,6 @@ namespace Cocktail
 
         internal PartLocator(PartLocator<T> partLocator)
         {
-            _compositionContextDelegate = partLocator._compositionContextDelegate;
             _useFactory = partLocator._useFactory;
             _defaultGenerator = partLocator._defaultGenerator;
             Composition.ProviderChanged +=
@@ -57,14 +52,6 @@ namespace Cocktail
         internal T GetPart()
         {
             if (Probed) return _instance;
-
-            // Look for the part in the CompositionContext first;
-            _instance = CompositionContext.GetExportedInstance(typeof(T)) as T;
-            if (_instance != null)
-            {
-                WriteTrace();
-                return _instance;
-            }
 
             // Look for the part in the IoC container.
             if (_useFactory)
@@ -89,15 +76,13 @@ namespace Cocktail
 
         protected Func<T> DefaultGenerator { get { return _defaultGenerator; } }
 
-        private CompositionContext CompositionContext { get { return _compositionContextDelegate() ?? CompositionContext.Default; } }
-
         private void WriteTrace()
         {
             if (_instance != null)
-                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
+                Trace.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
                                                  _instance.GetType().FullName));
             else
-                TraceFns.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+                Trace.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
         }
 
         private T TryGetPartFromFactory()

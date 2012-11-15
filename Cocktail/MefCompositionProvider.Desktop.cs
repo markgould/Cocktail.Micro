@@ -15,10 +15,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using System.IO;
 using System.Linq;
 using Caliburn.Micro;
-using IdeaBlade.Core.Composition;
-using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
@@ -27,6 +26,7 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ISupportsRecomposition
     {
+        private ComposablePartCatalog _defaultCatalog;
         private ComposablePartCatalog _catalog;
         private CompositionContainer _container;
 
@@ -45,7 +45,7 @@ namespace Cocktail
         /// </summary>
         public ComposablePartCatalog DefaultCatalog
         {
-            get { return CompositionHost.Instance.Container.Catalog; }
+            get { return _defaultCatalog ?? (_defaultCatalog = CreateDefaultCatalog()); }
         }
 
         /// <summary>
@@ -170,11 +170,7 @@ namespace Cocktail
         /// <summary>
         ///   Fired when the composition container is modified after initialization.
         /// </summary>
-        public event EventHandler<RecomposedEventArgs> Recomposed
-        {
-            add { CompositionHost.Recomposed += value; }
-            remove { CompositionHost.Recomposed -= value; }
-        }
+        public event EventHandler Recomposed;
 
         #endregion
 
@@ -217,6 +213,24 @@ namespace Cocktail
         private IEnumerable<Lazy<object>> GetExportsCore(Type serviceType, string key)
         {
             return Container.GetExports(serviceType, null, key);
+        }
+
+        private ComposablePartCatalog CreateDefaultCatalog()
+        {
+            var aggregateCatalog = new AggregateCatalog();
+
+            if (!DesignTime.InDesignMode())
+            {
+                var searchPatterns = new[] {"*.dll", "*.exe"};
+
+                searchPatterns.ForEach(
+                    searchPattern => Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, searchPattern,
+                                                        SearchOption.TopDirectoryOnly)
+                                              .Select(codeBase => new AssemblyCatalog(codeBase))
+                                              .ForEach(aggregateCatalog.Catalogs.Add));
+            }
+
+            return aggregateCatalog;
         }
     }
 }

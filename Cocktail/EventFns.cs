@@ -11,7 +11,6 @@
 //====================================================================================================================
 
 using Caliburn.Micro;
-using IdeaBlade.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

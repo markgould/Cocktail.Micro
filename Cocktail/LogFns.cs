@@ -13,7 +13,6 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using IdeaBlade.Core;
 
 namespace Cocktail
 {
@@ -30,7 +29,7 @@ namespace Cocktail
         [Conditional("DEBUG")]
         public static void DebugWriteLine(object aObject)
         {
-            DebugFns.WriteLine(FormatLogMessage(aObject));
+            Debug.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -41,7 +40,8 @@ namespace Cocktail
         [Conditional("DEBUG")]
         public static void DebugWriteLineIf(bool condition, object aObject)
         {
-            DebugFns.WriteLineIf(condition, FormatLogMessage(aObject));
+            if (condition)
+                Debug.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLine(object aObject)
         {
-            TraceFns.WriteLine(FormatLogMessage(aObject));
+            Trace.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -62,7 +62,8 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLineIf(bool condition, object aObject)
         {
-            TraceFns.WriteLineIf(condition, FormatLogMessage(aObject));
+            if (condition)
+                Trace.WriteLine(FormatLogMessage(aObject));
         }
 
 #if !NETFX_CORE

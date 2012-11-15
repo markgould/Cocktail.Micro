@@ -10,8 +10,6 @@
 // http://cocktail.ideablade.com/licensing
 //====================================================================================================================
 
-using IdeaBlade.Core;
-
 namespace Cocktail
 {
     /// <summary>Public interface to interact with the dialog host.</summary>

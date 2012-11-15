@@ -11,8 +11,6 @@
 //====================================================================================================================
 
 using Caliburn.Micro;
-using IdeaBlade.Core;
-using IdeaBlade.Core.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -104,7 +102,7 @@ namespace Cocktail
         /// <summary>Writes log messages to <see cref="System.Diagnostics.Debug"/>.</summary>
         private static void LogWriter(string message)
         {
-            DebugFns.WriteLine(message);
+            Debug.WriteLine(message);
         }
 
         #endregion

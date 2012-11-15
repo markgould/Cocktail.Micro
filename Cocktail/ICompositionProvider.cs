@@ -12,8 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using IdeaBlade.Core;
-using IdeaBlade.Core.Composition;
 
 namespace Cocktail
 {
@@ -109,6 +107,6 @@ namespace Cocktail
         /// <summary>
         ///   Fired to indicate that a recomposition has taken place.
         /// </summary>
-        event EventHandler<RecomposedEventArgs> Recomposed;
+        event EventHandler Recomposed;
     }
 }
