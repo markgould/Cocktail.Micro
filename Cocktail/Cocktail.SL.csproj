@@ -101,84 +101,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationService.cs" />
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
     <Compile Include="CocktailBootstrapper.cs" />
-    <Compile Include="Composition.Silverlight.cs">
-      <DependentUpon>Composition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConnectionOptions.cs" />
     <Compile Include="DesignTime.cs" />
-    <Compile Include="DesignTimeViewModelLocatorBase.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogButton.cs" />
     <Compile Include="DialogHostFns.cs" />
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
-    <Compile Include="EntityManagerEventMessage.cs" />
-    <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="Composition.cs" />
-    <Compile Include="DataChangedEventArgs.cs" />
-    <Compile Include="DefaultEntityManagerSyncInterceptor.cs" />
-    <Compile Include="EntityManagerDelegate.cs" />
-    <Compile Include="EntityManagerSyncInterceptor.cs" />
-    <Compile Include="EntityManagerWrapper.cs" />
-    <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EventFns.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="FakeStoreEntityManagerProviderFns.cs" />
     <Compile Include="HarnessViewModel.Desktop.cs">
       <DependentUpon>HarnessViewModel.cs</DependentUpon>
     </Compile>
     <Compile Include="IBusyWatcher.cs" />
     <Compile Include="ICompositionProvider.cs" />
-    <Compile Include="ICompositionProvider.Silverlight.cs">
-      <DependentUpon>ICompositionProvider.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IConnectionOptionsResolver.cs" />
     <Compile Include="IDialogHost.cs" />
     <Compile Include="IDialogManager.cs" />
     <Compile Include="IFactory.cs" />
-    <Compile Include="IPagerRepository.cs" />
+    <Compile Include="IHideObjectMembers.cs" />
+    <Compile Include="InterfaceExportAttribute.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Linq.cs" />
     <Compile Include="LogFns.cs" />
     <Compile Include="MefCompositionFactory.cs" />
     <Compile Include="MefCompositionProvider.Desktop.cs" />
-    <Compile Include="MefCompositionProvider.DevForce.cs">
-      <DependentUpon>MefCompositionProvider.Desktop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MefCompositionProvider.Silverlight.cs">
-      <DependentUpon>MefCompositionProvider.Desktop.cs</DependentUpon>
-    </Compile>
     <Compile Include="MessageBoxBase.cs" />
     <Compile Include="MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FakeBackingStore.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDiscoverableViewModel.cs" />
-    <Compile Include="IEntityManagerProvider.cs" />
-    <Compile Include="IEntityManagerSyncInterceptor.cs" />
     <Compile Include="IHarnessAware.cs" />
-    <Compile Include="ISampleDataProvider.cs" />
-    <Compile Include="IValidationErrorNotification.cs" />
     <Compile Include="Navigator.cs" />
     <Compile Include="Navigator.Desktop.cs">
       <DependentUpon>Navigator.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectManager.cs" />
-    <Compile Include="Pager.cs" />
-    <Compile Include="PagerRepository.cs" />
     <Compile Include="PartLocator.cs" />
     <Compile Include="PathToImageSourceConverter.cs" />
     <Compile Include="PrincipalChangedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HarnessViewModel.cs" />
     <Compile Include="ReflectionExtensions.cs" />
-    <Compile Include="Repository.cs" />
     <Compile Include="Silverlight\DialogHostView.xaml.cs">
       <DependentUpon>DialogHostView.xaml</DependentUpon>
     </Compile>
@@ -190,13 +158,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SyncDataMessage.cs" />
     <Compile Include="TaskFns.cs" />
-    <Compile Include="TraceLogger.cs" />
-    <Compile Include="UnitOfWork.cs" />
     <Compile Include="ValueConverterConvention.cs" />
     <Compile Include="ValueConverterConventionRegistry.cs" />
     <Compile Include="VisualStates.cs" />
+    <Compile Include="WeakEventHandler.cs" />
     <Compile Include="WeakRefDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,7 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLine(object aObject)
         {
-            Trace.WriteLine(FormatLogMessage(aObject));
+            Console.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Cocktail
         public static void TraceWriteLineIf(bool condition, object aObject)
         {
             if (condition)
-                Trace.WriteLine(FormatLogMessage(aObject));
+                Console.WriteLine(FormatLogMessage(aObject));
         }
 
 #if !NETFX_CORE

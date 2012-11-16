@@ -79,10 +79,10 @@ namespace Cocktail
         private void WriteTrace()
         {
             if (_instance != null)
-                Trace.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
+                Console.WriteLine(String.Format(StringResources.ProbedForServiceAndFoundMatch, typeof(T).Name,
                                                  _instance.GetType().FullName));
             else
-                Trace.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
+                Console.WriteLine(String.Format(StringResources.ProbedForServiceFoundNoMatch, typeof(T).Name));
         }
 
         private T TryGetPartFromFactory()

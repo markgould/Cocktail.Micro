@@ -17,6 +17,8 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Cocktail
@@ -65,10 +67,10 @@ namespace Cocktail
         /// <returns> The requested instance. </returns>
         public Lazy<T> GetInstance<T>() where T : class
         {
-            var exports = GetExportsCore(typeof(T), null).ToList();
+            var exports = GetExportsCore(typeof (T), null).ToList();
             if (!exports.Any())
                 throw new Exception(string.Format(StringResources.CouldNotLocateAnyInstancesOfContract,
-                                                  typeof(T).FullName));
+                                                  typeof (T).FullName));
 
             return new Lazy<T>(() => (T) exports.First().Value);
         }
@@ -88,7 +90,7 @@ namespace Cocktail
         /// <returns> The requested instances. </returns>
         public IEnumerable<T> GetInstances<T>() where T : class
         {
-            var exports = GetExportsCore(typeof(T), null);
+            var exports = GetExportsCore(typeof (T), null);
             return exports.Select(x => (T) x.Value);
         }
 
@@ -134,7 +136,7 @@ namespace Cocktail
             var factory = new MefCompositionFactory<T>();
             Container.SatisfyImportsOnce(factory);
             if (factory.ExportFactory == null)
-                throw new CompositionException(string.Format(StringResources.NoExportFound, typeof(T)));
+                throw new CompositionException(string.Format(StringResources.NoExportFound, typeof (T)));
 
             return factory;
         }
@@ -217,6 +219,32 @@ namespace Cocktail
 
         private ComposablePartCatalog CreateDefaultCatalog()
         {
+#if SILVERLIGHT
+            var aggregateCatalog = new AggregateCatalog();
+
+            if (!DesignTime.InDesignMode())
+            {
+                var parts = Deployment.Current.Parts.Where(x => x.Source.EndsWith(".dll"));
+                var assemblies = new List<Assembly>();
+
+                // Load assemblies from current xap
+                foreach (var part in parts)
+                    using (var stream = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative)).Stream)
+                        assemblies.Add(part.Load(stream));
+
+                // Create an AssemblyCatalog for every assembly and add to aggregate catalog
+                foreach (var asm in assemblies)
+                {
+                    var assemblyCatalog = new AssemblyCatalog(asm);
+                    if (assemblyCatalog.Parts.Any())
+                        aggregateCatalog.Catalogs.Add(assemblyCatalog);
+                    else
+                        assemblyCatalog.Dispose();
+                }
+            }
+
+            return aggregateCatalog;
+#else
             var aggregateCatalog = new AggregateCatalog();
 
             if (!DesignTime.InDesignMode())
@@ -231,6 +259,7 @@ namespace Cocktail
             }
 
             return aggregateCatalog;
+#endif
         }
     }
 }
