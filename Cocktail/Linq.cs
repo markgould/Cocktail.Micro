@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace Cocktail
 {
-    public static class Linq
+    internal static class Linq
     {
          public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
          {

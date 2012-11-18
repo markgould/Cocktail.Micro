@@ -16,8 +16,10 @@ using System.Composition;
 using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Composition.Hosting.Core;
+using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
+using Windows.ApplicationModel;
 
 namespace Cocktail
 {
@@ -30,10 +32,22 @@ namespace Cocktail
         private ContainerConfiguration _configuration;
         private CompositionHost _container;
         private ConventionBuilder _conventions;
+        private IEnumerable<Assembly> _probeAssemblies;
 
         private ConventionBuilder Conventions
         {
             get { return _conventions ?? (_conventions = new ConventionBuilder()); }
+        }
+
+        public IEnumerable<Assembly> ProbeAssemblies
+        {
+            get
+            {
+                if (_probeAssemblies == null)
+                    _probeAssemblies = GetAssemblies();
+
+                return _probeAssemblies;
+            }
         }
 
         public ContainerConfiguration Configuration
@@ -45,27 +59,15 @@ namespace Cocktail
 
                 // Add conventions for Cocktail extensions.
                 Conventions
-                    .ForTypesDerivedFrom<IValidationErrorNotification>()
-                    .Export<IValidationErrorNotification>();
-                Conventions
                     .ForTypesDerivedFrom<IDiscoverableViewModel>()
                     .Export<IDiscoverableViewModel>();
-                Conventions
-                    .ForTypesDerivedFrom<IConnectionOptionsResolver>()
-                    .Export<IConnectionOptionsResolver>();
-                Conventions
-                    .ForTypesDerivedFrom<IEntityManagerSyncInterceptor>()
-                    .Export<IEntityManagerSyncInterceptor>();
-                Conventions
-                    .ForTypesDerivedFrom<EntityManagerDelegate>()
-                    .Export<EntityManagerDelegate>();
                 Conventions
                     .ForType<EventAggregator>()
                     .Export<IEventAggregator>()
                     .Shared();
 
                 // Build ContainerConfiguration with the list of assemblies discovered by DevForce
-                var assemblies = IdeaBlade.Core.Composition.CompositionHost.Instance.ProbeAssemblies;
+                var assemblies = ProbeAssemblies.ToList();
                 _configuration = new ContainerConfiguration()
                     .WithProvider(_valueExports) // Provider for manually injected singletons
                     .WithAssemblies(assemblies, Conventions);
@@ -161,6 +163,27 @@ namespace Cocktail
         public void AddExportedValue<T>(T value)
         {
             _valueExports.AddExportedValue(value);
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+            var task = Package.Current.InstalledLocation.GetFilesAsync().AsTask();
+            task.Wait();
+            if (task.IsFaulted || task.IsCanceled)
+                return Enumerable.Empty<Assembly>();
+
+            var selectFiles = task.Result.Where(f => f.Name.EndsWith(".dll")).Select(f => f.Name);
+
+            var list = new List<Assembly>();
+            foreach (var file in selectFiles)
+            {
+                var name = file.Remove(file.LastIndexOf('.'));
+                var assemblyName = new AssemblyName(name);
+                var asm = Assembly.Load(assemblyName);
+                list.Add(asm);
+            }
+
+            return list;
         }
     }
 

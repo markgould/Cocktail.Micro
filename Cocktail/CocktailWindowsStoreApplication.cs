@@ -23,7 +23,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using CompositionHost = IdeaBlade.Core.Composition.CompositionHost;
 
 namespace Cocktail
 {
@@ -77,11 +76,11 @@ namespace Cocktail
         {
             Execute.InitializeWithDispatcher();
 
-            EventAggregator.DefaultPublicationThreadMarshaller = Execute.OnUIThread;
-            AssemblySource.Instance.AddRange(SelectAssemblies());
-
             PrepareApplication();
             Configure();
+
+            EventAggregator.DefaultPublicationThreadMarshaller = Execute.OnUIThread;
+            AssemblySource.Instance.AddRange(SelectAssemblies());
 
             IoC.GetInstance = GetInstance;
             IoC.GetAllInstances = GetAllInstances;
@@ -313,7 +312,7 @@ namespace Cocktail
         /// <returns> A list of assemblies to inspect. </returns>
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            return CompositionHost.Instance.ProbeAssemblies;
+            return _compositionProvider.ProbeAssemblies;
         }
 
         /// <summary>

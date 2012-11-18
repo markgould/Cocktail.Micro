@@ -19,7 +19,6 @@ namespace Cocktail
     /// <summary>
     /// A collection of static methods used to provide code assertions, tracing and logging functionality.
     /// </summary>
-    /// <remarks><see cref="TraceLogger.LogWriter"/> can be used to redirect the output.</remarks>
     public static class LogFns
     {
         /// <summary>
@@ -51,7 +50,8 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLine(object aObject)
         {
-            Console.WriteLine(FormatLogMessage(aObject));
+            //TODO: Need logging
+            //Console.WriteLine(FormatLogMessage(aObject));
         }
 
         /// <summary>
@@ -62,8 +62,9 @@ namespace Cocktail
         [Conditional("TRACE")]
         public static void TraceWriteLineIf(bool condition, object aObject)
         {
-            if (condition)
-                Console.WriteLine(FormatLogMessage(aObject));
+            //TODO: Need logging
+            //if (condition)
+            //    Console.WriteLine(FormatLogMessage(aObject));
         }
 
 #if !NETFX_CORE

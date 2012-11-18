@@ -17,7 +17,7 @@ using System.Reflection;
 
 namespace Cocktail
 {
-    internal static class ReflectionExtensions
+    internal static partial class ReflectionExtensions
     {
 #if NETFX_CORE
         public static IEnumerable<Type> GetInterfaces(this Type type)
@@ -25,15 +25,15 @@ namespace Cocktail
             return type.GetTypeInfo().ImplementedInterfaces;
         }
 
-        public static Type[] GetGenericArguments(this Type type)
-        {
-            return type.GetTypeInfo().GenericTypeArguments;
-        }
+        //public static Type[] GetGenericArguments(this Type type)
+        //{
+        //    return type.GetTypeInfo().GenericTypeArguments;
+        //}
 
-        public static MethodInfo GetMethod(this Type type, string name)
-        {
-            return type.GetTypeInfo().DeclaredMethods.First(x => x.Name == name);
-        }
+        //public static MethodInfo GetMethod(this Type type, string name)
+        //{
+        //    return type.GetTypeInfo().DeclaredMethods.First(x => x.Name == name);
+        //}
 #endif
 
         public static bool IsGenericType(this Type type)

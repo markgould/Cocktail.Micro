@@ -14,9 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-#if NETFX_CORE
-using IdeaBlade.Core;
-#endif
 
 namespace Cocktail
 {
