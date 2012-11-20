@@ -1,9 +1,10 @@
-Cocktail
-========
+Cocktail.Micro
+==============
 
-Cocktail is an application development platform that takes the pain out of the development of data-driven rich XAML applications. It is a blend of three popular frameworks: Caliburn.Micro + DevForce + Entity Framework. Line of business applications need to query and save database data, model the data as objects with business logic, and present those objects to the end user. Cocktail takes care of these fundamental responsibilities with loosely coupled, open source, and industry-leading components that are designed for change.
+Cocktail.Micro is subset of Cocktail. It includes everything Cocktail does, except for DevForce. The persistence layer is left open in Cocktail.Micro. 
 
-<p><strong>Quick links</strong></p>
+For information on what Cocktail is, visit any of the following links. 
+
 <ul>
 <li><a href="http://cocktail.ideablade.com/">Cocktail homepage</a> </li>
 <li><a href="http://drc.ideablade.com/devforce-2012/bin/view/Documentation/cocktail-getting-started" target="_blank"> Getting Started</a> 
