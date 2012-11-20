@@ -251,11 +251,18 @@ namespace Cocktail
             {
                 var searchPatterns = new[] {"*.dll", "*.exe"};
 
-                searchPatterns.ForEach(
+                var catalogs = searchPatterns.SelectMany(
                     searchPattern => Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, searchPattern,
                                                         SearchOption.TopDirectoryOnly)
-                                              .Select(codeBase => new AssemblyCatalog(codeBase))
-                                              .ForEach(aggregateCatalog.Catalogs.Add));
+                                              .Select(codeBase => new AssemblyCatalog(codeBase)));
+
+                foreach (var assemblyCatalog in catalogs)
+                {
+                    if (assemblyCatalog.Parts.Any())
+                        aggregateCatalog.Catalogs.Add(assemblyCatalog);
+                    else
+                        assemblyCatalog.Dispose();
+                }
             }
 
             return aggregateCatalog;

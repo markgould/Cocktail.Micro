@@ -11,31 +11,12 @@
 //====================================================================================================================
 
 using System.Threading.Tasks;
-using IdeaBlade.EntityModel;
-using IdeaBlade.EntityModel.Security;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Cocktail.Tests.Helpers
 {
     public class CocktailTestBase
     {
-        static CocktailTestBase()
-        {
-            EntityManager.EntityManagerCreated += OnEntityManagerCreated;
-        }
-
-        private static void OnEntityManagerCreated(object sender, EntityManagerCreatedEventArgs e)
-        {
-            // Keep each EM's authentication context separate for testing.
-            e.EntityManager.Options.UseDefaultAuthenticationContext = false;
-
-#if !SILVERLIGHT
-            // There's not SynchronizationContext when running desktop tests, so let's avoid 
-            // thread authorization issues.
-            e.EntityManager.AuthorizedThreadId = null;
-#endif
-        }
-
         /// <summary>
         /// Called before each test
         /// </summary>
@@ -43,7 +24,6 @@ namespace Cocktail.Tests.Helpers
         public void TestInitialize()
         {
             var compositionProvider = new MefCompositionProvider();
-            Authenticator.Instance.DefaultAuthenticationContext = null;
             Composition.SetProvider(compositionProvider);
 
             Context();
@@ -51,27 +31,6 @@ namespace Cocktail.Tests.Helpers
 
         protected virtual void Context()
         {
-        }
-
-        public async Task ResetFakeBackingStoreAsync(string compositionContextName)
-        {
-            var provider = EntityManagerProviderFactory
-                .CreateTestEntityManagerProvider(compositionContextName);
-            if (provider != null)
-            {
-                await provider.ResetFakeBackingStoreAsync();
-            }
-        }
-
-        public async Task InitFakeBackingStoreAsync(string compositionContextName)
-        {
-            var provider = EntityManagerProviderFactory
-                .CreateTestEntityManagerProvider(compositionContextName);
-            if (provider != null)
-            {
-                await provider.InitializeFakeBackingStoreAsync();
-            }
-            await ResetFakeBackingStoreAsync(compositionContextName);
         }
     }
 }

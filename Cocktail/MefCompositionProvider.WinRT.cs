@@ -20,6 +20,8 @@ using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
 using Windows.ApplicationModel;
+using System.Text.RegularExpressions;
+
 
 namespace Cocktail
 {
@@ -167,6 +169,8 @@ namespace Cocktail
 
         private IEnumerable<Assembly> GetAssemblies()
         {
+            var ignorePatterns = new[] {"^System.", "^Microsoft.", "^Caliburn.Micro", "^Windows."};
+
             var task = Package.Current.InstalledLocation.GetFilesAsync().AsTask();
             task.Wait();
             if (task.IsFaulted || task.IsCanceled)
@@ -178,6 +182,10 @@ namespace Cocktail
             foreach (var file in selectFiles)
             {
                 var name = file.Remove(file.LastIndexOf('.'));
+
+                if (ignorePatterns.Any(p => Regex.IsMatch(name, p, RegexOptions.IgnoreCase)))
+                    continue;
+                
                 var assemblyName = new AssemblyName(name);
                 var asm = Assembly.Load(assemblyName);
                 list.Add(asm);
