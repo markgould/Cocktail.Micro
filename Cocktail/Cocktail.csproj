@@ -73,6 +73,18 @@
     <Compile Include="BinaryToImageSourceConverter.cs" />
     <Compile Include="BusyWatcher.cs" />
     <Compile Include="DesignTime.cs" />
+    <Compile Include="DialogUICommand.cs" />
+    <Compile Include="EntityManagerProvider.NET.cs">
+      <DependentUpon>EntityManagerProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityNotFoundException.cs" />
+    <Compile Include="Factory.cs" />
+    <Compile Include="FakeBackingStore.NET.cs">
+      <DependentUpon>FakeBackingStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FakeStoreEntityManagerProviderFns.NET.cs">
+      <DependentUpon>FakeStoreEntityManagerProviderFns.cs</DependentUpon>
+    </Compile>
     <Compile Include="HarnessViewModel.Desktop.cs">
       <DependentUpon>HarnessViewModel.cs</DependentUpon>
     </Compile>
@@ -80,6 +92,8 @@
       <DependentUpon>IAuthenticationService.cs</DependentUpon>
     </Compile>
     <Compile Include="ICompositionProvider.cs" />
+    <Compile Include="IDialogUICommand.cs" />
+    <Compile Include="IUICommand.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IHideObjectMembers.cs" />
     <Compile Include="InterfaceExportAttribute.cs" />
@@ -122,6 +136,9 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="TaskFns.cs" />
+    <Compile Include="TraceLogger.cs" />
+    <Compile Include="UICommand.cs" />
+    <Compile Include="UnitOfWork.cs" />
     <Compile Include="ValueConverterConvention.cs" />
     <Compile Include="ValueConverterConventionRegistry.cs" />
     <Compile Include="VisualStates.cs" />
