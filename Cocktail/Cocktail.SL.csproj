@@ -115,8 +115,6 @@
     <Compile Include="DialogHostBase.cs" />
     <Compile Include="DialogManager.cs" />
     <Compile Include="DialogUICommand.cs" />
-    <Compile Include="EntityManagerEventMessage.cs" />
-    <Compile Include="EntityManagerProvider.cs" />
     <Compile Include="DefaultDebugLogger.cs" />
     <Compile Include="Composition.cs" />
     <Compile Include="EventFns.cs" />
@@ -168,9 +166,7 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="TaskFns.cs" />
-    <Compile Include="TraceLogger.cs" />
     <Compile Include="UICommand.cs" />
-    <Compile Include="UnitOfWork.cs" />
     <Compile Include="ValueConverterConvention.cs" />
     <Compile Include="ValueConverterConventionRegistry.cs" />
     <Compile Include="VisualStates.cs" />

@@ -16,10 +16,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-#if NETFX_CORE
-using IdeaBlade.Core.Reflection;
-#endif
-
 namespace Cocktail
 {
     /// <summary>Default Caliburn.Micro logger for debug builds.</summary>
