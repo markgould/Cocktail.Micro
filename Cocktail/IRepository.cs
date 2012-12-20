@@ -97,48 +97,50 @@ namespace Cocktail
         ///   Retrieves all entities with the repository's default query strategy.
         /// </summary>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> AllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                      string includeProperties = null);
+                                      Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves all entities with the repository's default query strategy.
         /// </summary>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> AllAsync(CancellationToken cancellationToken,
                                       Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                      string includeProperties = null);
+                                      Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves all entities from the back-end data source.
         /// </summary>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> AllInDataSourceAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                                  string includeProperties = null);
+                                                  Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves all entities from the back-end data source.
         /// </summary>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> AllInDataSourceAsync(CancellationToken cancellationToken,
                                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                                  string includeProperties = null);
+                                                  Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves all entities from the cache.
         /// </summary>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
-        IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+        IEnumerable<T> AllInCache(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                  Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Returns the number of entities.
@@ -159,11 +161,11 @@ namespace Cocktail
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate,
                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                       string includeProperties = null);
+                                       Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy.
@@ -171,12 +173,12 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate,
                                        CancellationToken cancellationToken,
                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                       string includeProperties = null);
+                                       Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
@@ -184,10 +186,12 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
@@ -196,11 +200,13 @@ namespace Cocktail
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
             Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
@@ -208,10 +214,11 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindAsync(
             Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable, IOrderedQueryable> orderBy = null);
+            Func<IQueryable, IOrderedQueryable> orderBy = null, Action<IFetchOptions> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression with the repository's default query strategy and projects the results into a different shape using the selector parameter.
@@ -220,21 +227,23 @@ namespace Cocktail
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindAsync(
             Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
-            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null);
+            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null,
+            Action<IFetchOptions> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> FindInDataSourceAsync(Expression<Func<T, bool>> predicate,
                                                    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                                   string includeProperties = null);
+                                                   Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source.
@@ -242,12 +251,12 @@ namespace Cocktail
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
-        /// <param name="includeProperties"> Optional related entities to eager fetch together with the returned list of entities. Use comma to separate multiple properties. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         Task<IEnumerable<T>> FindInDataSourceAsync(Expression<Func<T, bool>> predicate,
                                                    CancellationToken cancellationToken,
                                                    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                                   string includeProperties = null);
+                                                   Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
@@ -255,10 +264,12 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
@@ -267,11 +278,13 @@ namespace Cocktail
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable<TResult>> FindInDataSourceAsync<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, CancellationToken cancellationToken,
             Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
@@ -279,10 +292,11 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindInDataSourceAsync(
             Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable, IOrderedQueryable> orderBy = null);
+            Func<IQueryable, IOrderedQueryable> orderBy = null, Action<IFetchOptions> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the back-end data source and projects the results into a different shape using the selector parameter.
@@ -291,19 +305,23 @@ namespace Cocktail
         /// <param name="cancellationToken"> A token that allows for the operation to be cancelled. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         Task<IEnumerable> FindInDataSourceAsync(
             Func<IQueryable<T>, IQueryable> selector, CancellationToken cancellationToken,
-            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null);
+            Expression<Func<T, bool>> predicate = null, Func<IQueryable, IOrderedQueryable> orderBy = null,
+            Action<IFetchOptions> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the cache.
         /// </summary>
         /// <param name="predicate"> Optional predicate to filter the returned list of entities </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of entities. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved entities. </returns>
         IEnumerable<T> FindInCache(Expression<Func<T, bool>> predicate,
-                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                   Action<IFetchOptions<T>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
@@ -311,10 +329,12 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         IEnumerable<TResult> FindInCache<TResult>(
             Func<IQueryable<T>, IQueryable<TResult>> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null);
+            Func<IQueryable<TResult>, IOrderedQueryable<TResult>> orderBy = null,
+            Action<IFetchOptions<TResult>> fetchOptions = null);
 
         /// <summary>
         ///   Retrieves one or more entities matching the provided expression from the cache and projects the results into a different shape using the selector parameter.
@@ -322,10 +342,11 @@ namespace Cocktail
         /// <param name="selector"> The selector used to shape the result. </param>
         /// <param name="predicate"> Optional predicate to filter the returned list of objects. </param>
         /// <param name="orderBy"> Optional sorting function to sort the returned list of objects. </param>
+        /// <param name="fetchOptions">Optional delegate to specify additional fetching options.</param>
         /// <returns> The list of retrieved objects. </returns>
         IEnumerable FindInCache(
             Func<IQueryable<T>, IQueryable> selector, Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable, IOrderedQueryable> orderBy = null);
+            Func<IQueryable, IOrderedQueryable> orderBy = null, Action<IFetchOptions> fetchOptions = null);
 
         /// <summary>
         ///   Marks the specified entity as to be deleted.
@@ -344,5 +365,72 @@ namespace Cocktail
         /// </summary>
         /// <param name="keyValues"> The primary key values </param>
         bool ExistsInCache(params object[] keyValues);
+    }
+
+    /// <summary>
+    /// A fluent interface to specify additional data fetching options.
+    /// </summary>
+    public interface IFetchOptions : IHideObjectMembers
+    {
+        /// <summary>
+        /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+        /// </summary>
+        /// <param name="count">The number of elements to skip before returning the remaining elements.</param>
+        IFetchOptions Skip(int count);
+
+        /// <summary>
+        /// Returns a specified number of contiguous elements from the start of a sequence.
+        /// </summary>
+        /// <param name="count">The number of elements to return.</param>
+        /// <returns></returns>
+        IFetchOptions Take(int count);
+
+        /// <summary>
+        /// Returns distinct elements from a sequence.
+        /// </summary>
+        IFetchOptions Distinct();
+
+        /// <summary>
+        /// Configures eager fetching for related entities in the specified query path.
+        /// </summary>
+        /// <param name="propertyPath">Dot-separated list of navigation properties that describe the query path in the graph that should be eagerly fetched.</param>
+        IFetchOptions Include(string propertyPath);
+    }
+
+    /// <summary>
+    /// A fluent generic interface to specify additional data fetching options.
+    /// </summary>
+    public interface IFetchOptions<T> : IHideObjectMembers
+    {
+        /// <summary>
+        /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+        /// </summary>
+        /// <param name="count">The number of elements to skip before returning the remaining elements.</param>
+        IFetchOptions<T> Skip(int count);
+
+        /// <summary>
+        /// Returns a specified number of contiguous elements from the start of a sequence.
+        /// </summary>
+        /// <param name="count">The number of elements to return.</param>
+        /// <returns></returns>
+        IFetchOptions<T> Take(int count);
+
+        /// <summary>
+        /// Returns distinct elements from a sequence.
+        /// </summary>
+        IFetchOptions<T> Distinct();
+
+        /// <summary>
+        /// Configures eager fetching for related entities in the specified query path.
+        /// </summary>
+        /// <param name="propertyPath">Dot-separated list of navigation properties that describe the query path in the graph that should be eagerly fetched.</param>
+        IFetchOptions<T> Include(string propertyPath);
+
+        /// <summary>
+        /// Configures eager fetching for related entities in the specified query path.
+        /// </summary>
+        /// <param name="expr">An expression returning the navigation property.</param>
+        /// <returns></returns>
+        IFetchOptions<T> Include(Expression<Func<T, object>> expr);
     }
 }
