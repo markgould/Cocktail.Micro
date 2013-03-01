@@ -50,6 +50,29 @@ namespace Cocktail
             get { return _defaultCatalog ?? (_defaultCatalog = CreateDefaultCatalog()); }
         }
 
+        internal void OnRecomposed(object sender, RecomposedEventArgs args)
+        {
+            if (args.HasError) return;
+
+            // Determine new assemblies in the DevForce catalog
+            var newAssemblies = GetProbeAssemblies()
+                .Where(x => !_probeAssemblies.Contains(x))
+                .ToList();
+            
+            // Add an AggregateCatalog containing the new assemblies to the DefaultCatalog
+            if (newAssemblies.Any())
+            {
+                var catalog = new AggregateCatalog(newAssemblies.Select(x => new AssemblyCatalog(x)));
+                _defaultCatalog.Catalogs.Add(catalog);
+                _probeAssemblies.AddRange(newAssemblies);
+            }
+
+            // Notify clients of the recomposition
+            var handlers = Recomposed;
+            if (handlers != null)
+                handlers(sender, args);
+        }
+
         /// <summary>
         ///   Returns the CompositionContainer in use.
         /// </summary>
