@@ -28,6 +28,7 @@ namespace Cocktail
     /// </summary>
     internal partial class MefCompositionProvider : ISupportsRecomposition
     {
+        private ComposablePartCatalog _pluginCatalog;
         private ComposablePartCatalog _defaultCatalog;
         private ComposablePartCatalog _catalog;
         private CompositionContainer _container;
@@ -51,11 +52,32 @@ namespace Cocktail
         }
 
         /// <summary>
+        ///    Returns the plugin catalog in use.
+        /// </summary>
+        public ComposablePartCatalog PluginCatalog
+        {
+            get { return _pluginCatalog ?? (_pluginCatalog = CreatePluginCatalog()); }
+        }
+
+        /// <summary>
         ///   Returns the CompositionContainer in use.
         /// </summary>
         public CompositionContainer Container
         {
-            get { return _container ?? (_container = new CompositionContainer(Catalog)); }
+            get
+            {
+                if (_container != null)
+                    return _container;
+
+                var exportProviders = new List<CatalogExportProvider>();
+                if (PluginCatalog != null && PluginCatalog.Parts.Any())
+                    exportProviders.Add(new CatalogExportProvider(PluginCatalog));
+
+                exportProviders.Add(new CatalogExportProvider(Catalog));
+                _container = new CompositionContainer(exportProviders.Cast<ExportProvider>().ToArray());
+                exportProviders.ForEach(ep => ep.SourceProvider = _container);
+                return _container;
+            }
         }
 
         #region ISupportsRecomposition Members
@@ -263,9 +285,21 @@ namespace Cocktail
                     else
                         assemblyCatalog.Dispose();
                 }
+
             }
 
             return aggregateCatalog;
+#endif
+        }
+
+        private ComposablePartCatalog CreatePluginCatalog()
+        {
+#if SILVERLIGHT
+            throw new NotImplementedException();
+#else 
+            var baseDir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            var pluginPath = Path.Combine((baseDir.Parent ?? baseDir).FullName, "Plugins");
+            return Directory.Exists(pluginPath) ? new DirectoryCatalog(pluginPath) : null;
 #endif
         }
     }
